@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ML-улучшение изображений</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>ML-улучшение изображений</h1>
+        <div class="upload-area" id="uploadArea">
+            <p>Перетащите изображение сюда или нажмите для выбора</p>
+            <span class="formats">JPG, PNG, HEIC, BMP</span>
+            <input type="file" id="fileInput" accept="image/jpeg,image/png,image/heic,image/bmp" hidden>
+        </div>
+        <div class="progress-container" id="progressContainer" style="display: none;">
+            <div class="progress-bar">
+                <div class="progress" id="progress"></div>
+            </div>
+            <p class="status" id="status">Загрузка модели...</p>
+            <button id="cancelBtn" class="btn danger" style="display: none; margin-top: 12px;">Отмена</button>
+        </div>
+        <div class="result" id="result" style="display: none;">
+            <h2>Результат</h2>
+            <div class="controls">
+                <label><input type="range" id="brightnessSlider" min="0" max="200" value="100"> Яркость</label>
+                <label><input type="range" id="contrastSlider" min="0" max="200" value="100"> Контраст</label>
+                <label><input type="range" id="saturationSlider" min="0" max="200" value="100"> Цветность</label>
+            </div>
+            <div class="image-comparison">
+                <div class="original">
+                    <h3>Оригинал</h3>
+                    <img id="originalImage" alt="Оригинал">
+                </div>
+                <div class="enhanced">
+                    <h3>Улучшенное</h3>
+                    <img id="enhancedImage" alt="Улучшенное">
+                </div>
+            </div>
+            <div class="buttons">
+                <button id="downloadBtn" class="btn">Скачать результат</button>
+                <button id="resetBtn" class="btn secondary">Новое изображение</button>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.17.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
+    <script>
+        // Проверка загрузки зависимостей
+        window.addEventListener('DOMContentLoaded', function() {
+            if (typeof tf === 'undefined') {
+                document.body.innerHTML = '<div style="padding:40px;text-align:center;font-family:sans-serif;">' +
+                    '<h2>Ошибка загрузки</h2>' +
+                    '<p>Не удалось загрузить TensorFlow.js. Проверьте подключение к интернету и обновите страницу.</p></div>';
+            }
+        });
+    </script>
+    <script src="model.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
